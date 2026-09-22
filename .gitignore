@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# 前端
+web/node_modules/
+web/dist/
+web/.tmp-ui-test-*/
+
+# 本地环境（个人权限配置 / 机器调研脚本）
+.claude/
+.survey/
+
+# 参考文件：示例数据基于本机真实文件名与路径，不入库
+【参考】知识门户样式模板_v1.1.html
+
+# 日志与运行时产物
+*.log
+logs/
+【参考】知识门户前端设计规格_v1.0.md
+collector_log.txt
+session_log.txt
