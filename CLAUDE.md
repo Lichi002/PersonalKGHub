@@ -56,3 +56,4 @@ PersonalKGHub — 运行在本机（Windows 11）的个人知识门户：NTFS MF
 - GitHub 私有仓库 `Lichi002/PersonalKGHub`，初始提交 2026-09-22（54 文件）
 - **仓库级代理**：`http.proxy = http://127.0.0.1:17897`（Clash 端口），push/pull 需 Clash 运行中
 - 提交前过一遍 `.gitignore`：.venv / node_modules / dist / .claude / .survey / 【参考】v1.1 样式模板（内含本机真实文件名）均已排除，新增敏感文件先补 .gitignore
+- **push 后必须核实真的推上去了**：`git status -sb` 无 upstream 时不显示 ahead/behind（会伪装成"已同步"）；以 `git ls-remote origin main` 对上本地 HEAD 才算数。2026-09-22 曾因 upstream 丢失 + `push | tail -1` 截掉报错首行，漏推了一次还以为成功
