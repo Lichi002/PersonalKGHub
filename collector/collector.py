@@ -14,6 +14,7 @@ import sys
 import threading
 import time
 import traceback
+from logging.handlers import RotatingFileHandler
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -21,9 +22,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LOG_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "collector_log.txt")
+# 大小轮转：每个文件事件都记一行，不轮转的话数月能涨到几百 MB
+_handler = RotatingFileHandler(
+    LOG_PATH, maxBytes=2_000_000, backupCount=2, encoding="utf-8")
 logging.basicConfig(
-    filename=LOG_PATH, level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(message)s")
+    level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s",
+    handlers=[_handler])
 log = logging.getLogger("collector")
 
 

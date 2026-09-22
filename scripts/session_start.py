@@ -25,6 +25,30 @@ def log(msg):
         f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + msg + "\n")
 
 
+def trim_log(path, keep_bytes=1_000_000):
+    """日志裁剪：超 keep_bytes 只保留尾部（对齐到行首），控制长期占用。"""
+    try:
+        if not os.path.exists(path) or os.path.getsize(path) <= keep_bytes:
+            return
+        with open(path, "rb") as f:
+            f.seek(-keep_bytes, 2)
+            data = f.read()
+        nl = data.find(b"\n")
+        if nl >= 0:
+            data = data[nl + 1:]
+        with open(path, "wb") as f:
+            f.write("[日志已裁剪]\n".encode() + data)
+        log(f"trimmed {os.path.basename(path)}")
+    except OSError:
+        pass
+
+
+# 会话启动时裁剪所有会话期日志（collector 自带大小轮转，不在其列）
+for _lg in (LOG, os.path.join(ROOT, "server_out.log"),
+            os.path.join(ROOT, "server_err.log")):
+    trim_log(_lg)
+
+
 def run(cmd):
     subprocess.run(cmd, capture_output=True, creationflags=NOWIN)
 
